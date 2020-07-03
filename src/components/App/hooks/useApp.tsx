@@ -1,9 +1,12 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { AppContext } from '../App';
 
 
 export const useApp = () => {
   const { dispatch, state } = useContext(AppContext);
+  useEffect(() => {
+    localStorage.setItem('favs-data', JSON.stringify(state.favorites));
+  }, [state.favorites]);
 
   const changeFilm = ({ value, active }: { value: string, active: boolean }) => {
     const currentState = [...state.filters.movie];
@@ -46,6 +49,20 @@ export const useApp = () => {
     });
   };
 
+  const addFavorite = (payload: string) => {
+    dispatch({
+      type: 'FAVORITE_ADD_ITEM',
+      payload,
+    });
+  };
+
+  const deleteFavorite = (payload: string) => {
+    dispatch({
+      type: 'FAVORITE_DELETE_ITEM',
+      payload,
+    });
+  };
+
   return {
     ...state,
     actions: {
@@ -53,6 +70,8 @@ export const useApp = () => {
       changeFilm,
       changeSpecies,
       changeYear,
+      addFavorite,
+      deleteFavorite,
     }
   };
 };

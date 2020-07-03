@@ -27,11 +27,25 @@ type FilterTypeChangeAction = {
   payload: FilterType;
 }
 
+const FAVORITE_ADD_ITEM = 'FAVORITE_ADD_ITEM';
+type FavoriteAddItemAction = {
+  type: typeof FAVORITE_ADD_ITEM;
+  payload: string;
+}
+
+const FAVORITE_DELETE_ITEM = 'FAVORITE_DELETE_ITEM';
+type FavoriteDeleteItemAction = {
+  type: typeof FAVORITE_DELETE_ITEM;
+  payload: string;
+}
+
 export type AppActions =
   FilterChangeFilmAction |
   FilterTypeChangeAction |
   FilterChangeSpeciesAction |
-  FilterChangeYearsAction;
+  FilterChangeYearsAction |
+  FavoriteAddItemAction |
+  FavoriteDeleteItemAction;
 
 
 export const AppReducer = (state: AppState, action: AppActions): AppState => {
@@ -68,6 +82,19 @@ export const AppReducer = (state: AppState, action: AppActions): AppState => {
         ...state,
         filterType: action.payload,
       };
+    case FAVORITE_ADD_ITEM:
+      const addFav = state.favorites.includes(action.payload)
+        ? [...state.favorites]
+        : [...state.favorites, action.payload];
+      return {
+        ...state,
+        favorites: addFav,
+      };
+    case FAVORITE_DELETE_ITEM:
+      return {
+        ...state,
+        favorites: [...state.favorites].filter(item => item !== action.payload),
+      };
     default:
       return state;
   }
@@ -80,7 +107,7 @@ export const initialApp: AppState = {
     species: [],
   },
   filterType: 'AND',
-  favourites: [],
+  favorites: JSON.parse(localStorage.getItem('favs-data') || '[]'),
 };
 
 export type AppContextType = {

@@ -35,11 +35,13 @@ body {
 }
 
 .item-name {
-  margin: 10px 0;
+  margin: 10px 6px;
   background: #F9F9F9;
-  padding: 6px 12px;
+  padding: 8px 14px;
   font-size: 1.15em;
   border: 1px solid #DBDBDB;
+  display: inline-block;
+  cursor: move;
 }
 .item-name:nth-child(2n) {
   background: #f0f0f0;
@@ -55,4 +57,26 @@ body {
   height: 1px;
   margin: 8px 0 18px;
   background: #505050;
+}
+
+.fav-box {
+  padding: 16px 8px;
+  border: 1px solid #ededed;
+  background: whitesmoke;
+  margin-bottom: 16px;
+}
+.fav-box .hint {
+  margin-bottom: 24px;
+  text-align: center;
+  color: #202020;
+}
+
+span.link-span {
+  text-decoration: underline;
+  color: darkred;
+}
+span.link-span:hover {
+  color: red;
+  text-decoration: none;
+  cursor: pointer;
 }
